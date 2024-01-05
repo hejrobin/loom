@@ -96,4 +96,10 @@ meter {
 	-webkit-text-size-adjust: 100%;
 	isolation: isolate;
 	color-scheme: light;
+	font-family: system-ui, sans-serif;
+	font-weight: 400;
+}
+
+body {
+	padding: 2rem;
 }

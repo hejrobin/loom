@@ -38,7 +38,7 @@ export function useEffectOnce(effect: Effect): void {
 				(destroyEffectRef.current as Effect)();
 			}
 		};
-	}, []);
+	});
 }
 
 export function useComponentDidMount(
