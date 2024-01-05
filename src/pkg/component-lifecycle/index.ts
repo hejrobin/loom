@@ -10,7 +10,7 @@ export function useForceUpdate() {
 }
 
 export function useEffectOnce(effect: Effect): void {
-	const destroyEffectRef = useRef<unknown>(undefined);
+	const destroyEffectRef = useRef<any>(null);
 	const didCallEffectRef = useRef<boolean>(false);
 	const renderAfterEffectRef = useRef<boolean>(false);
 
@@ -35,10 +35,10 @@ export function useEffectOnce(effect: Effect): void {
 			}
 
 			if (destroyEffectRef.current) {
-				(destroyEffectRef.current as Effect)();
+				destroyEffectRef.current();
 			}
 		};
-	});
+	}, []);
 }
 
 export function useComponentDidMount(

@@ -2,7 +2,7 @@ import { project } from 'config';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import Application from 'views/application';
+import { Application, ApplicationStateProvider } from 'views/application';
 
 import './styles.css';
 import './theme.css';
@@ -15,6 +15,8 @@ document.title = `${project.name} - v${project.version}`;
 
 createRoot(mountNode).render(
 	<StrictMode>
-		<Application />
+		<ApplicationStateProvider>
+			<Application />
+		</ApplicationStateProvider>
 	</StrictMode>
 );
