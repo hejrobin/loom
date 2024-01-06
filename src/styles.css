@@ -101,5 +101,30 @@ meter {
 }
 
 body {
-	padding: 2rem;
+	user-select: none;
+}
+
+/* Grid styles */
+
+.react-grid-item {
+	border-radius: 1rem;
+	box-shadow: var(--shadow-elevation-1);
+}
+
+.react-grid-item.react-grid-placeholder {
+	background: transparent;
+	box-shadow: 0 0 0 0.2rem hsla(var(--fg) / 0.15);
+	opacity: 1;
+}
+
+.react-grid-item.react-grid-placeholder.placeholder-resizing {
+	opacity: 0;
+}
+
+.react-grid-item.react-draggable-dragging {
+	box-shadow: var(--shadow-elevation-5);
+}
+
+.react-grid-item .react-resizable-handle {
+	opacity: 1;
 }

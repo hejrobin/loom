@@ -1,5 +1,4 @@
 .wrapper {
-	padding: 1rem;
 	background: hsl(var(--card-bg));
 	color: hsl(var(--card-fg));
 	height: 100%;
@@ -8,12 +7,19 @@
 }
 
 .header {
+	padding: 1rem;
 	margin-bottom: 1rem;
 	display: grid;
-	height: 2rem;
+	height: 3.5rem;
 	grid-template-columns: 2.4rem 1fr 2.4rem;
 	align-items: center;
+	user-select: none;
 	gap: 1rem;
+	cursor: grab;
+
+	&:focus {
+		cursor: grabbing;
+	}
 }
 
 .header var {
@@ -53,4 +59,11 @@
 
 html[data-color-scheme='light'] .action {
 	box-shadow: inset 0 0 0 0.1rem hsl(var(--card-bg-alt));
+}
+
+.main {
+	padding: 1rem;
+	height: calc(100% - 5rem);
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
 }

@@ -1,0 +1,16 @@
+package.json
+package-lock.json
+.commitlintrc.json
+.eslintrc.json
+tsconfig.json
+tsconfig.dev.json
+.eslintcache
+*.yaml
+*.yml
+*.md
+dist/
+build/
+public/
+node_modules/
+.vscode
+main.tsx
