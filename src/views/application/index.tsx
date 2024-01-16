@@ -21,6 +21,7 @@ import MaterialSymbol, { MaterialSymbolProps } from 'atoms/material-symbol';
 
 import About from 'views/application/settings/about';
 import DisplayModeSettings from 'views/application/settings/display-mode';
+import Widgets from 'views/application/widgets';
 
 import css from './styles.module.css';
 
@@ -138,12 +139,51 @@ function Action({ onClick, ...symbolProperties }: ActionProps): JSX.Element {
 	);
 }
 
+interface DrawerProps extends MaterialSymbolProps {
+	title: string;
+	onClose: (event: PointerEvent<HTMLDivElement>) => void;
+	children: ReactNode | ReactNode[];
+}
+
+function Drawer({
+	title,
+	onClose,
+	children,
+	...symbolProperties
+}: DrawerProps): JSX.Element {
+	return (
+		<motion.aside
+			initial={{ opacity: 0, x: '100%' }}
+			animate={{ opacity: 1, x: '0%' }}
+			exit={{ opacity: 0, x: '100%' }}
+			transition={{ ease: 'easeInOut' }}
+			className={css.settings}
+		>
+			<section
+				style={{
+					gap: '1rem',
+					alignItems: 'center',
+					gridTemplateColumns: 'auto 1fr auto',
+				}}
+			>
+				<Action {...symbolProperties} onClick={onClose} />
+				<h1>{title}</h1>
+				<Action variant="close" onClick={onClose} />
+			</section>
+			{children}
+		</motion.aside>
+	);
+}
+
 export function Application(): JSX.Element {
 	//const { addWidget } = useApplicationState();
 
 	const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
+	const [widgetsOpen, setWidgetsOpen] = useState<boolean>(false);
 
 	const toggleSettingsOpen = () => setSettingsOpen(!settingsOpen);
+
+	const toggleWidgetsOpen = () => setWidgetsOpen(!widgetsOpen);
 
 	return (
 		<Fragment>
@@ -153,6 +193,7 @@ export function Application(): JSX.Element {
 					<h1>Loom</h1>
 				</header>
 				<nav className={css.actions}>
+					<Action variant="add_circle" onClick={toggleWidgetsOpen} />
 					<Action
 						variant="page_info"
 						weight={300}
@@ -166,22 +207,26 @@ export function Application(): JSX.Element {
 			</main>
 			<AnimatePresence>
 				{settingsOpen && (
-					<motion.aside
-						initial={{ opacity: 0, x: '100%' }}
-						animate={{ opacity: 1, x: '0%' }}
-						exit={{ opacity: 0, x: '100%' }}
-						transition={{ ease: 'easeInOut' }}
-						className={css.settings}
+					<Drawer
+						title="Settings"
+						variant="page_info"
+						weight={300}
+						fill={false}
+						onClose={toggleSettingsOpen}
 					>
-						<section
-							style={{ alignItems: 'center', gridTemplateColumns: '1fr auto' }}
-						>
-							<h1>Settings</h1>
-							<Action variant="close" onClick={toggleSettingsOpen} />
-						</section>
 						<DisplayModeSettings />
 						<About />
-					</motion.aside>
+					</Drawer>
+				)}
+				{widgetsOpen && (
+					<Drawer
+						title="Widgets"
+						variant="widgets"
+						weight={300}
+						onClose={toggleWidgetsOpen}
+					>
+						<Widgets />
+					</Drawer>
 				)}
 			</AnimatePresence>
 		</Fragment>

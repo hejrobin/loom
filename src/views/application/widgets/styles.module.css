@@ -1,0 +1,36 @@
+.widget {
+	padding: 1rem;
+	background-color: hsla(var(--card-bg-alt) / 0.75);
+	border-radius: 1rem;
+	cursor: pointer;
+	display: grid;
+	grid-auto-flow: row;
+	gap: 0.5rem;
+
+	&:hover {
+		background-color: hsl(var(--card-bg-alt));
+	}
+}
+
+.widgetHeader {
+	gap: 1rem;
+	display: grid;
+	grid-template-columns: 1fr auto;
+}
+
+.widgetName {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 1.2rem;
+	font-weight: 600;
+}
+
+.widgetVersion,
+.widgetAuthor {
+	color: hsl(var(--card-fg-alt));
+}
+
+.widgetSummary {
+	font-size: 1.4rem;
+}
