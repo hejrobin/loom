@@ -104,6 +104,151 @@ body {
 	user-select: none;
 }
 
+/* Color Scheme, defaults to dark mode */
+
+:root {
+	--hue: 265;
+
+	--sat: env(safe-area-inset-top);
+	--sar: env(safe-area-inset-right);
+	--sab: env(safe-area-inset-bottom);
+	--sal: env(safe-area-inset-left);
+
+	--shadow-hue: var(--hue);
+	--shadow-saturation: 0%;
+	--shadow-lightness: 0%;
+
+	--shadow-elevation-1: 0 0.1rem 0.3rem
+			hsla(
+				var(--shadow-hue),
+				var(--shadow-saturation),
+				var(--shadow-lightness),
+				0.12
+			),
+		0 0.1rem 0.2rem
+			hsla(
+				var(--shadow-hue),
+				var(--shadow-saturation),
+				var(--shadow-lightness),
+				0.24
+			);
+
+	--shadow-elevation-2: 0 0.3rem 0.6rem
+			hsla(
+				var(--shadow-hue),
+				var(--shadow-saturation),
+				var(--shadow-lightness),
+				0.16
+			),
+		0 0.3rem 0.6rem
+			hsla(
+				var(--shadow-hue),
+				var(--shadow-saturation),
+				var(--shadow-lightness),
+				0.24
+			);
+
+	--shadow-elevation-3: 0 1rem 2rem
+			hsla(
+				var(--shadow-hue),
+				var(--shadow-saturation),
+				var(--shadow-lightness),
+				0.19
+			),
+		0 0.6rem 0.6rem
+			hsla(
+				var(--shadow-hue),
+				var(--shadow-saturation),
+				var(--shadow-lightness),
+				0.24
+			);
+
+	--shadow-elevation-4: 0 1.4rem 2.8rem
+			hsla(
+				var(--shadow-hue),
+				var(--shadow-saturation),
+				var(--shadow-lightness),
+				0.25
+			),
+		0 1rem 1rem
+			hsla(
+				var(--shadow-hue),
+				var(--shadow-saturation),
+				var(--shadow-lightness),
+				0.22
+			);
+
+	--shadow-elevation-5: 0 1.9rem 3.8rem
+			hsla(
+				var(--shadow-hue),
+				var(--shadow-saturation),
+				var(--shadow-lightness),
+				0.3
+			),
+		0 1.5rem 1.2rem
+			hsla(
+				var(--shadow-hue),
+				var(--shadow-saturation),
+				var(--shadow-lightness),
+				0.22
+			);
+
+	--bg: var(--hue) 10% 21%;
+	--fg: var(--hue) 10% 95%;
+
+	--card-bg: var(--hue) 10% 8%;
+	--card-bg-alt: var(--hue) 10% 21%;
+	--card-fg: var(--hue) 0% 90%;
+	--card-fg-alt: var(--hue) 10% 56%;
+
+	--button-bg: var(--hue) 15% 60%;
+	--button-fg: var(--hue) 0% 100%;
+
+	--button-bg-alt: var(--hue) 67% 57%;
+	--button-fg-alt: var(--hue) 67% 95%;
+}
+
+html[data-color-scheme='dark'] {
+	--bg: var(--hue) 10% 21%;
+	--fg: var(--hue) 10% 95%;
+
+	--card-bg: var(--hue) 10% 8%;
+	--card-bg-alt: var(--hue) 10% 21%;
+	--card-fg: var(--hue) 0% 90%;
+	--card-fg-alt: var(--hue) 10% 56%;
+}
+
+html[data-color-scheme='light'] {
+	--shadow-lightness: 40%;
+
+	--bg: var(--hue) 1% 79%;
+	--fg: var(--hue) 1% 5%;
+
+	--card-bg: var(--hue) 0% 100%;
+	--card-bg-alt: var(--hue) 1% 89%;
+	--card-fg: var(--hue) 0% 10%;
+	--card-fg-alt: var(--hue) 10% 50%;
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		--shadow-lightness: 40%;
+
+		--bg: var(--hue) 1% 79%;
+		--fg: var(--hue) 1% 5%;
+
+		--card-bg: var(--hue) 0% 100%;
+		--card-bg-alt: var(--hue) 1% 89%;
+		--card-fg: var(--hue) 0% 10%;
+		--card-fg-alt: var(--hue) 10% 50%;
+	}
+}
+
+body {
+	background: hsl(var(--bg));
+	color: hsl(var(--fg));
+}
+
 /* Grid styles */
 
 .react-grid-item {
@@ -127,4 +272,8 @@ body {
 
 .react-grid-item .react-resizable-handle {
 	opacity: 1;
+}
+
+.react-grid-item .react-resizable-handle {
+	opacity: 0;
 }

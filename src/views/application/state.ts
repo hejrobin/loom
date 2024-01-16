@@ -12,10 +12,15 @@ export function useApplicationState(): ApplicationState {
 	return useContext(ApplicationContext);
 }
 
-export function useApplicationColorScheme(): [
-	ApplicationColorScheme,
-	Dispatch<ApplicationColorScheme>,
-] {
+interface ApplicationColorSchemeHook {
+	colorScheme: ApplicationColorScheme;
+	setColorScheme: Dispatch<ApplicationColorScheme>;
+	isSystemMode: boolean;
+	isLightMode: boolean;
+	isDarkMode: boolean;
+}
+
+export function useApplicationColorScheme(): ApplicationColorSchemeHook {
 	const __storageKey: string = 'loom:app:cs';
 
 	const colorSchemeFromStorage: string =
@@ -41,5 +46,11 @@ export function useApplicationColorScheme(): [
 		setColorScheme(colorScheme);
 	};
 
-	return [colorScheme, dispatch];
+	return {
+		colorScheme,
+		setColorScheme: dispatch,
+		isSystemMode: colorScheme === 'system',
+		isLightMode: colorScheme === 'light',
+		isDarkMode: colorScheme === 'dark',
+	};
 }

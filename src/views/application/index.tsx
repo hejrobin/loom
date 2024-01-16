@@ -1,5 +1,11 @@
-import { project } from 'config';
-import { ReactNode, createContext } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+	Fragment,
+	PointerEvent,
+	ReactNode,
+	createContext,
+	useState,
+} from 'react';
 
 import useMixedState from 'pkg/mixed-state';
 import {
@@ -11,9 +17,10 @@ import {
 } from 'pkg/widget';
 import WidgetProvider from 'pkg/widget/provider';
 
-import MaterialSymbol from 'atoms/material-symbol';
+import MaterialSymbol, { MaterialSymbolProps } from 'atoms/material-symbol';
 
-import { useApplicationState } from 'views/application/state';
+import About from 'views/application/settings/about';
+import DisplayModeSettings from 'views/application/settings/display-mode';
 
 import css from './styles.module.css';
 
@@ -60,6 +67,8 @@ export function ApplicationStateProvider({
 	initialState,
 	children,
 }: ApplicationProviderProps): JSX.Element {
+	//const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+
 	const [state, setState] = useMixedState<ApplicationState>({
 		...DefaultApplicationState,
 		...initialState,
@@ -117,29 +126,64 @@ export function ApplicationStateProvider({
 	);
 }
 
+interface ActionProps extends MaterialSymbolProps {
+	onClick: (event: PointerEvent<HTMLDivElement>) => void;
+}
+
+function Action({ onClick, ...symbolProperties }: ActionProps): JSX.Element {
+	return (
+		<div className={css.action} onClick={onClick}>
+			<MaterialSymbol size={2.4} {...symbolProperties} />
+		</div>
+	);
+}
+
 export function Application(): JSX.Element {
-	const { addWidget } = useApplicationState();
+	//const { addWidget } = useApplicationState();
+
+	const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
+
+	const toggleSettingsOpen = () => setSettingsOpen(!settingsOpen);
 
 	return (
-		<main className={css.wrapper}>
-			<header className={css.header}>
-				<MaterialSymbol variant="view_cozy" />
-				<h1>
-					{project.name} v{project.version}
-				</h1>
-			</header>
-			<nav className={css.actions}>
-				<a
-					href="#"
-					className={css.action}
-					onClick={() => addWidget('widgets.test')}
-				>
-					<MaterialSymbol variant="add" />
-				</a>
-			</nav>
-			<div className={css.widgets}>
-				<WidgetProvider />
-			</div>
-		</main>
+		<Fragment>
+			<main className={css.wrapper}>
+				<header className={css.header}>
+					<MaterialSymbol variant="raven" />
+					<h1>Loom</h1>
+				</header>
+				<nav className={css.actions}>
+					<Action
+						variant="page_info"
+						weight={300}
+						fill={false}
+						onClick={toggleSettingsOpen}
+					/>
+				</nav>
+				<div className={css.widgets}>
+					<WidgetProvider />
+				</div>
+			</main>
+			<AnimatePresence>
+				{settingsOpen && (
+					<motion.aside
+						initial={{ opacity: 0, x: '100%' }}
+						animate={{ opacity: 1, x: '0%' }}
+						exit={{ opacity: 0, x: '100%' }}
+						transition={{ ease: 'easeInOut' }}
+						className={css.settings}
+					>
+						<section
+							style={{ alignItems: 'center', gridTemplateColumns: '1fr auto' }}
+						>
+							<h1>Settings</h1>
+							<Action variant="close" onClick={toggleSettingsOpen} />
+						</section>
+						<DisplayModeSettings />
+						<About />
+					</motion.aside>
+				)}
+			</AnimatePresence>
+		</Fragment>
 	);
 }

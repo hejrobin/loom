@@ -1,7 +1,13 @@
-import { registerWidget } from 'pkg/widget';
+import { loadWidgetManifest, registerWidget } from 'pkg/widget';
 
-registerWidget({
-	guid: 'widgets.test',
-	name: 'Hello World',
-	path: 'test',
-});
+import availableWidgets from './repository.json';
+
+function loadWidgets() {
+	availableWidgets.forEach(async (widgetPath: string) => {
+		const manifest = await loadWidgetManifest(widgetPath);
+
+		registerWidget(manifest);
+	});
+}
+
+loadWidgets();

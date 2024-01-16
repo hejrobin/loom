@@ -1,0 +1,77 @@
+.input {
+	margin-block: 1rem 2rem;
+	display: block;
+	position: relative;
+
+	&:has(textarea) {
+		margin-block: 2rem;
+	}
+
+	& input::placeholder,
+	& textarea::placeholder {
+		color: hsl(0 0% 40%);
+	}
+
+	& input,
+	& label,
+	& textarea {
+		width: 100%;
+		display: block;
+	}
+
+	& input,
+	& textarea {
+		padding: 1rem 0.5rem;
+		font-size: 1.6rem;
+		border-bottom: 0.1rem solid hsl(0 0% 30%);
+		transition:
+			border-color 150ms ease-in-out,
+			background-color 150ms ease-in-out;
+	}
+
+	& textarea {
+		padding: 0.8rem;
+		font-size: 1.4rem;
+		border-radius: 0.5rem;
+		border: none;
+		line-height: 1.65;
+		background-color: hsl(0 0% 17%);
+	}
+
+	& label {
+		position: absolute;
+		top: 0;
+		padding: 0.5rem;
+		font-size: 1rem;
+		font-weight: 600;
+		color: hsl(0 0% 50%);
+		z-index: -1;
+		transition:
+			transform 150ms ease-in-out,
+			opacity 150ms ease-in-out;
+	}
+
+	& input:focus {
+		border-color: hsl(0 0% 50%);
+	}
+
+	& textarea:focus {
+		background-color: hsl(0 0% 22%);
+	}
+
+	& input:placeholder-shown + label,
+	& textarea:placeholder-shown + label {
+		transform: translateY(0%);
+		opacity: 0;
+	}
+
+	& input:not(:placeholder-shown) + label {
+		transform: translateY(-70%);
+		opacity: 1;
+	}
+
+	& textarea:not(:placeholder-shown) + label {
+		transform: translateY(-100%);
+		opacity: 1;
+	}
+}

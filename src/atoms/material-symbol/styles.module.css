@@ -1,10 +1,14 @@
 .materialSymbol {
 	--size: 1.8rem;
+	--fill: 1;
+	--wght: 400;
+	--grad: 0;
 
+	overflow: hidden;
 	font-size: var(--size);
 	font-variation-settings:
-		'FILL' 1,
-		'wght' 400,
-		'GRAD' 0,
+		'FILL' var(--fill),
+		'wght' var(--wght),
+		'GRAD' var(--grad),
 		'opsz' 24;
 }

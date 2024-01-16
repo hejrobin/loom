@@ -43,6 +43,15 @@ export function getWidgetManifest(
 	return __repository.get(guid);
 }
 
+export async function loadWidgetManifest(
+	path: string
+): Promise<WidgetManifest> {
+	return new Promise((resolve) => {
+		import(`../../widgets/${path}/manifest.json`).then((data) =>
+			resolve(data?.default)
+		);
+	});
+}
 export function registerWidget(manifest: WidgetManifest): void {
 	if (__repository.has(manifest.guid)) {
 		throw new Error('Widget already registered.');

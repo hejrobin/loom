@@ -1,0 +1,51 @@
+.button {
+	padding: 1.2rem 1rem;
+	background: hsl(var(--button-bg));
+	color: hsl(var(--button-fg));
+	font-size: 1.2rem;
+	text-transform: uppercase;
+	font-weight: 700;
+	text-align: center;
+	border-radius: 0.6rem;
+	cursor: pointer;
+	display: grid;
+	grid-auto-flow: column;
+	place-content: center;
+	place-items: center;
+	gap: 0.5rem;
+
+	&[data-direction='vertical'] {
+		grid-auto-flow: row;
+		gap: 1rem;
+	}
+
+	&[data-variant='primary'] {
+		background: hsl(var(--button-bg-alt));
+		color: hsl(var(--button-fg-alt));
+	}
+
+	&[data-variant='transparent'] {
+		background: none;
+		color: hsl(var(--button-bg));
+		box-shadow:
+			0 0 0 0.1rem hsl(var(--button-bg)),
+			inset 0 0 0 0.1rem hsl(var(--button-bg));
+	}
+
+	&[data-variant='transparent'][data-selected='true'] {
+		box-shadow:
+			0 0 0 0.1rem hsl(var(--button-bg-alt)),
+			inset 0 0 0 0.1rem hsl(var(--button-bg-alt)),
+			0 0 0.5rem 0.2rem hsla(var(--button-bg-alt) / 0.5);
+		color: hsl(var(--card-fg));
+	}
+}
+
+.buttonGroup {
+	margin-top: 2rem;
+	width: 100%;
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: 1fr;
+	gap: 2rem;
+}

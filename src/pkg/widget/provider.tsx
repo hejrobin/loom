@@ -29,7 +29,11 @@ function WidgetLoader({ instanceId, guid }: WidgetLoaderProps): JSX.Element {
 	);
 
 	return (
-		<Widget id={instanceId} name={manifest?.name as string}>
+		<Widget
+			id={instanceId}
+			path={manifest?.path}
+			name={manifest?.name as string}
+		>
 			<Suspense fallback={<p>Loading Widget...</p>}>
 				<AutoLoader />
 			</Suspense>
