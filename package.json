@@ -1,7 +1,7 @@
 {
   "name": "loom",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "start": "bunx --bun vite",
@@ -52,6 +52,9 @@
     "vite-tsconfig-paths": "latest"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": ["bun lint:fix", "bun format"]
+    "src/**/*.{ts,tsx}": [
+      "bun lint:fix",
+      "bun format"
+    ]
   }
 }
