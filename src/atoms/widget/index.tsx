@@ -45,7 +45,7 @@ export default function Widget({
 			lazy(() => {
 				return import(`../../widgets/${path}/settings.tsx`);
 			}),
-		[]
+		[path]
 	);
 
 	return (

@@ -1,0 +1,8 @@
+{
+	"recommendations": [
+		"dbaeumer.vscode-eslint",
+		"editorconfig.editorconfig",
+		"vunguyentuan.vscode-postcss",
+		"vunguyentuan.vscode-css-variables"
+	]
+}

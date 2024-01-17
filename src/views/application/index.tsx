@@ -19,6 +19,7 @@ import WidgetProvider from 'pkg/widget/provider';
 
 import MaterialSymbol, { MaterialSymbolProps } from 'atoms/material-symbol';
 
+import Header from 'views/application/header';
 import About from 'views/application/settings/about';
 import DisplayModeSettings from 'views/application/settings/display-mode';
 import Widgets from 'views/application/widgets';
@@ -188,10 +189,7 @@ export function Application(): JSX.Element {
 	return (
 		<Fragment>
 			<main className={css.wrapper}>
-				<header className={css.header}>
-					<MaterialSymbol variant="raven" />
-					<h1>Loom</h1>
-				</header>
+				<Header />
 				<nav className={css.actions}>
 					<Action variant="add_circle" onClick={toggleWidgetsOpen} />
 					<Action

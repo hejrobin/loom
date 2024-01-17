@@ -25,7 +25,7 @@ function WidgetLoader({ instanceId, guid }: WidgetLoaderProps): JSX.Element {
 			lazy(() => {
 				return import(`../../widgets/${manifest?.path}/index.tsx`);
 			}),
-		[]
+		[manifest?.path]
 	);
 
 	return (

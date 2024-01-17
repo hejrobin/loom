@@ -19,7 +19,11 @@ export default function Widgets(): JSX.Element {
 	return (
 		<section style={{ gap: '1rem' }}>
 			{available.map((widget: WidgetManifest) => (
-				<div className={css.widget} onClick={() => addWidget(widget.guid)}>
+				<div
+					key={widget.guid}
+					className={css.widget}
+					onClick={() => addWidget(widget.guid)}
+				>
 					<p className={css.widgetHeader}>
 						<span className={css.widgetName}>{widget.name}</span>
 						<var className={css.widgetVersion}>(v{widget.version})</var>
