@@ -8,7 +8,6 @@
     "build": "tsc && vite build",
     "lint": "eslint --cache src/**/*.{ts,tsx}",
     "lint:fix": "eslint --cache --fix src/**/*.{ts,tsx}",
-    "format": "prettier --write -u src/**/*.{ts,tsx}",
     "preview": "vite preview",
     "release:patch": "bun standard-version release -- --release-as patch",
     "release:minor": "bun standard-version release -- --release-as minor",
@@ -53,8 +52,7 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
-      "bun lint:fix",
-      "bun format"
+      "bun lint:fix"
     ]
   }
 }

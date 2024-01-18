@@ -1,9 +1,9 @@
-import { Fragment, ReactNode, Suspense, lazy, useMemo, useRef } from 'react';
+import { Fragment, ReactNode, Suspense, lazy, useMemo } from 'react';
 
 import { classNames } from 'pkg/utils';
 
-import { Button } from 'atoms/button';
-import MaterialSymbol from 'atoms/material-symbol';
+import MaterialSymbol, { MaterialSymbolProps } from 'atoms/material-symbol';
+import Portal from 'atoms/portal';
 
 import { useApplicationState } from 'views/application/state';
 
@@ -11,34 +11,31 @@ import css from './styles.module.css';
 
 interface WidgetProps {
 	id: string;
+	guid: string;
 	name: string;
-	icon?: string;
 	path?: string;
+	symbol?: MaterialSymbolProps;
 	children: ReactNode | ReactNode[];
 }
 
 export default function Widget({
 	id,
 	name,
-	icon,
 	path,
+	symbol,
 	children,
 }: WidgetProps): JSX.Element {
-	const { removeWidget } = useApplicationState();
-	const settingsRef = useRef<HTMLDialogElement>(null);
+	const { sidebar, setSidebar, isActiveWidget, setActiveWidget } =
+		useApplicationState();
 
-	const handleOpenSettings = () => {
-		settingsRef.current?.showModal();
-	};
+	const showingWidgetSettings =
+		sidebar === 'widget:settings' && isActiveWidget(id);
 
-	const handleCloseSettings = () => {
-		settingsRef.current?.close();
-	};
-
-	const handleRemoveWidget = () => {
-		handleCloseSettings();
-		removeWidget(id);
-	};
+	if (!symbol) {
+		symbol = {
+			variant: 'new_releases',
+		};
+	}
 
 	const AutoLoadSettings = useMemo(
 		() =>
@@ -48,42 +45,39 @@ export default function Widget({
 		[path]
 	);
 
+	const toggleWidgetSettings = () => {
+		setSidebar('widget:settings');
+		setActiveWidget(id);
+	};
+
 	return (
 		<Fragment>
 			<article id={id} role="application" className={css.wrapper}>
 				<header className={classNames(css.header, 'widget-drag-handle')}>
 					<figure>
-						<MaterialSymbol variant={icon ?? 'verified'} />
+						<MaterialSymbol {...symbol} />
 					</figure>
 					<var>{name}</var>
 					<span />
 				</header>
-				<button className={css.action} onClick={handleOpenSettings}>
-					<MaterialSymbol variant="more_horiz" size={1.4} />
+				<button className={css.action} onClick={toggleWidgetSettings}>
+					<MaterialSymbol variant="page_info" size={1.4} />
 				</button>
 				<main className={css.main}>{children}</main>
 			</article>
 
-			<dialog ref={settingsRef} className={css.settings}>
-				<header className={classNames(css.header, css.settingsHeader)}>
-					<figure>
-						<MaterialSymbol variant="discover_tune" />
-					</figure>
-					<var>{name} Settings</var>
-					<span />
-				</header>
-				<button onClick={handleCloseSettings} className={css.action}>
-					<MaterialSymbol variant="close" size={1.4} />
-				</button>
-				<main className={css.settingsWrapper}>
-					<Suspense fallback={<p>Loading Widget Settings...</p>}>
-						<AutoLoadSettings />
-					</Suspense>
-					<Button onClick={handleRemoveWidget}>
-						<span>Remove Widget</span>
-					</Button>
-				</main>
-			</dialog>
+			<Portal
+				portalKey={id}
+				selector="#widget-settings-portal"
+				condition={showingWidgetSettings}>
+				{showingWidgetSettings && (
+					<section className={css.widgetSettings}>
+						<Suspense fallback={<p>Loading Widget Settings...</p>}>
+							<AutoLoadSettings />
+						</Suspense>
+					</section>
+				)}
+			</Portal>
 		</Fragment>
 	);
 }

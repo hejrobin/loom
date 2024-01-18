@@ -1,3 +1,6 @@
+export {};
+// @note Export is needed https://github.com/microsoft/TypeScript/issues/19816#issuecomment-640263670
+
 declare global {
 	type JSONPrimitive = string | number | boolean | null;
 	type JSONValue = JSONPrimitive | JSONObject | JSONValue[];

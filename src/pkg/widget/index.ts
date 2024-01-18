@@ -1,3 +1,5 @@
+import { MaterialSymbolProps } from 'atoms/material-symbol';
+
 export type WidgetIdentifier = string;
 
 export type WidgetInstanceId = string;
@@ -11,6 +13,7 @@ export interface WidgetInstance {
 	minW: number;
 	h: number;
 	minH: number;
+	symbol: MaterialSymbolProps;
 }
 
 export interface WidgetManifest {
@@ -22,8 +25,11 @@ export interface WidgetManifest {
 	author?: string;
 	size?: {
 		x?: number;
+		minX?: number;
 		y?: number;
+		minY: number;
 	};
+	symbol?: MaterialSymbolProps;
 }
 
 export type WidgetRepository = Map<WidgetIdentifier, WidgetManifest>;
@@ -67,8 +73,12 @@ export function instanciateWidget(manifest: WidgetManifest): WidgetInstance {
 		x: 0,
 		y: Infinity,
 		w: manifest?.size?.x ?? 2,
-		minW: 2,
+		minW: manifest?.size?.minX ?? 2,
 		h: manifest?.size?.y ?? 2,
-		minH: 2,
+		minH: manifest?.size?.minY ?? 2,
+		symbol: manifest?.symbol ?? {
+			variant: 'widgets',
+			weight: 300,
+		},
 	};
 }

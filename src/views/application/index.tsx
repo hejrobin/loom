@@ -1,11 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-	Fragment,
-	PointerEvent,
-	ReactNode,
-	createContext,
-	useState,
-} from 'react';
+import { Fragment, PointerEvent, ReactNode, createContext } from 'react';
 
 import useMixedState from 'pkg/mixed-state';
 import {
@@ -22,6 +16,10 @@ import MaterialSymbol, { MaterialSymbolProps } from 'atoms/material-symbol';
 import Header from 'views/application/header';
 import About from 'views/application/settings/about';
 import DisplayModeSettings from 'views/application/settings/display-mode';
+import {
+	useApplicationColorScheme,
+	useApplicationState,
+} from 'views/application/state';
 import Widgets from 'views/application/widgets';
 
 import css from './styles.module.css';
@@ -30,30 +28,50 @@ const NoOpFn = () => null;
 
 export type ApplicationColorScheme = 'dark' | 'light' | 'system';
 
+type ActionSetApplicationColorScheme = (
+	colorScheme: ApplicationColorScheme
+) => void;
+
 type ActionInstanciateWidget = (guid: WidgetIdentifier) => void;
 
 type ActionRemoveWidge = (instanceId: WidgetInstanceId) => void;
 
 type ActionUpdateWidgets = (widgets: WidgetInstance[]) => void;
 
+type Sidebar = 'none' | 'settings' | 'widgets' | 'widget:settings';
+
+type ActionSetSidebar = (sidebar: Sidebar) => void;
+
 export interface ApplicationState {
 	colorScheme: ApplicationColorScheme;
-	setColorScheme: (colorScheme: ApplicationColorScheme) => void;
+	setColorScheme: ActionSetApplicationColorScheme;
 
 	widgets: WidgetInstance[];
 	addWidget: ActionInstanciateWidget;
 	removeWidget: ActionRemoveWidge;
 	updateWidgets: ActionUpdateWidgets;
+	activeWidget: Nullable<string>;
+	setActiveWidget: (widgetInstanceId: Nullable<WidgetInstanceId>) => void;
+	isActiveWidget: (widgetInstanceId: WidgetInstanceId) => boolean;
+
+	sidebar?: Sidebar;
+	setSidebar: ActionSetSidebar;
 }
 
 const DefaultApplicationState: ApplicationState = {
 	colorScheme: 'system',
-	setColorScheme: () => null,
+	setColorScheme: NoOpFn,
 
 	widgets: [],
 	addWidget: NoOpFn,
 	removeWidget: NoOpFn,
 	updateWidgets: NoOpFn,
+	activeWidget: null,
+	setActiveWidget: NoOpFn,
+	isActiveWidget: () => false,
+
+	sidebar: 'none',
+	setSidebar: NoOpFn,
 };
 
 export const ApplicationContext = createContext<ApplicationState>(
@@ -111,6 +129,18 @@ export function ApplicationStateProvider({
 		setState({ widgets: nextWidgets });
 	};
 
+	const setSidebar = (sidebar: Sidebar) => {
+		setState({ sidebar, activeWidget: null });
+	};
+
+	const setActiveWidget = (widgetInstanceId: Nullable<WidgetInstanceId>) => {
+		setState({ activeWidget: widgetInstanceId });
+	};
+
+	const isActiveWidget = (widgetInstanceId: WidgetInstanceId): boolean => {
+		return state.activeWidget === widgetInstanceId;
+	};
+
 	const providedState = {
 		...state,
 
@@ -119,6 +149,10 @@ export function ApplicationStateProvider({
 		addWidget,
 		removeWidget,
 		updateWidgets,
+		setActiveWidget,
+		isActiveWidget,
+
+		setSidebar,
 	};
 
 	return (
@@ -142,34 +176,34 @@ function Action({ onClick, ...symbolProperties }: ActionProps): JSX.Element {
 
 interface DrawerProps extends MaterialSymbolProps {
 	title: string;
-	onClose: (event: PointerEvent<HTMLDivElement>) => void;
 	children: ReactNode | ReactNode[];
 }
 
 function Drawer({
 	title,
-	onClose,
 	children,
 	...symbolProperties
 }: DrawerProps): JSX.Element {
+	const { setSidebar } = useApplicationState();
+
+	const handleClose = () => setSidebar('none');
+
 	return (
 		<motion.aside
 			initial={{ opacity: 0, x: '100%' }}
 			animate={{ opacity: 1, x: '0%' }}
 			exit={{ opacity: 0, x: '100%' }}
 			transition={{ ease: 'easeInOut' }}
-			className={css.settings}
-		>
+			className={css.settings}>
 			<section
 				style={{
 					gap: '1rem',
 					alignItems: 'center',
 					gridTemplateColumns: 'auto 1fr auto',
-				}}
-			>
-				<Action {...symbolProperties} onClick={onClose} />
+				}}>
+				<Action {...symbolProperties} onClick={handleClose} />
 				<h1>{title}</h1>
-				<Action variant="close" onClick={onClose} />
+				<Action variant="close" onClick={handleClose} />
 			</section>
 			{children}
 		</motion.aside>
@@ -177,26 +211,25 @@ function Drawer({
 }
 
 export function Application(): JSX.Element {
-	//const { addWidget } = useApplicationState();
+	const { sidebar, setSidebar } = useApplicationState();
 
-	const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
-	const [widgetsOpen, setWidgetsOpen] = useState<boolean>(false);
+	const openWidgetsSidebar = () => setSidebar('widgets');
+	const openSettingsSidebar = () => setSidebar('settings');
 
-	const toggleSettingsOpen = () => setSettingsOpen(!settingsOpen);
-
-	const toggleWidgetsOpen = () => setWidgetsOpen(!widgetsOpen);
+	// Makes sure last saved color scheme is set
+	useApplicationColorScheme();
 
 	return (
 		<Fragment>
 			<main className={css.wrapper}>
 				<Header />
 				<nav className={css.actions}>
-					<Action variant="add_circle" onClick={toggleWidgetsOpen} />
+					<Action variant="add_circle" onClick={openWidgetsSidebar} />
 					<Action
 						variant="page_info"
 						weight={300}
 						fill={false}
-						onClick={toggleSettingsOpen}
+						onClick={openSettingsSidebar}
 					/>
 				</nav>
 				<div className={css.widgets}>
@@ -204,26 +237,32 @@ export function Application(): JSX.Element {
 				</div>
 			</main>
 			<AnimatePresence>
-				{settingsOpen && (
+				{sidebar === 'settings' && (
 					<Drawer
+						key="settings"
 						title="Settings"
 						variant="page_info"
 						weight={300}
-						fill={false}
-						onClose={toggleSettingsOpen}
-					>
+						fill={false}>
 						<DisplayModeSettings />
 						<About />
 					</Drawer>
 				)}
-				{widgetsOpen && (
-					<Drawer
-						title="Widgets"
-						variant="widgets"
-						weight={300}
-						onClose={toggleWidgetsOpen}
-					>
+
+				{sidebar === 'widgets' && (
+					<Drawer key="widgets" title="Widgets" variant="widgets" weight={300}>
 						<Widgets />
+					</Drawer>
+				)}
+
+				{sidebar === 'widget:settings' && (
+					<Drawer
+						key="widget:settings"
+						title="Widget Settings"
+						variant="page_info"
+						weight={300}
+						fill={false}>
+						<div id="widget-settings-portal" />
 					</Drawer>
 				)}
 			</AnimatePresence>

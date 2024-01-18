@@ -29,8 +29,7 @@ export default function MaterialSymbol({
 	return (
 		<i
 			className={classNames(css.materialSymbol, 'material-symbols-rounded')}
-			style={style}
-		>
+			style={style}>
 			{variant}
 		</i>
 	);

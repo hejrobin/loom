@@ -82,34 +82,6 @@ html[data-color-scheme='light'] .action {
 	-webkit-overflow-scrolling: touch;
 }
 
-.settings {
-	padding: 0;
-	min-width: 32rem;
-	max-width: 79vw;
-	background: hsl(var(--card-bg));
-	color: hsl(var(--card-fg));
-	border-radius: 1rem;
-	box-shadow:
-		var(--shadow-elevation-5),
-		inset 0 0 0 0.1rem hsla(var(--card-fg) / 0.05);
-	border: none;
-	user-select: none;
-
-	&::backdrop {
-		background-color: rgba(0, 0, 0, 0.4);
-		backdrop-filter: blur(0.2rem);
-	}
-}
-
-.settingsWrapper {
-	padding: 2rem;
-	display: grid;
-	grid-auto-flow: row;
-	place-content: center;
-	place-items: center;
-	gap: 2rem;
-}
-
-.settingsHeader {
-	cursor: default;
+.widgetSettings {
+	border-top: 0.1rem solid hsl(var(--card-bg-alt));
 }

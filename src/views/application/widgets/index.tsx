@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, PointerEvent } from 'react';
 
 import { WidgetManifest, getRegisteredWidgets } from 'pkg/widget';
 
@@ -12,6 +12,10 @@ export default function Widgets(): JSX.Element {
 
 	const available = Array.from(widgets.values());
 
+	const handleAddWidget = (event: PointerEvent<HTMLDivElement>) => {
+		addWidget(event.currentTarget.dataset.widgetGuid!);
+	};
+
 	if (available.length === 0) {
 		return <Fragment />;
 	}
@@ -21,9 +25,9 @@ export default function Widgets(): JSX.Element {
 			{available.map((widget: WidgetManifest) => (
 				<div
 					key={widget.guid}
+					data-widget-guid={widget.guid}
 					className={css.widget}
-					onClick={() => addWidget(widget.guid)}
-				>
+					onClick={handleAddWidget}>
 					<p className={css.widgetHeader}>
 						<span className={css.widgetName}>{widget.name}</span>
 						<var className={css.widgetVersion}>(v{widget.version})</var>

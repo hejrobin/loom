@@ -18,7 +18,7 @@ interface WidgetLoaderProps {
 }
 
 function WidgetLoader({ instanceId, guid }: WidgetLoaderProps): JSX.Element {
-	const manifest = getWidgetManifest(guid);
+	const manifest = getWidgetManifest(guid)!;
 
 	const AutoLoader = useMemo(
 		() =>
@@ -31,9 +31,10 @@ function WidgetLoader({ instanceId, guid }: WidgetLoaderProps): JSX.Element {
 	return (
 		<Widget
 			id={instanceId}
-			path={manifest?.path}
-			name={manifest?.name as string}
-		>
+			guid={manifest.guid}
+			path={manifest.path}
+			name={manifest.name as string}
+			symbol={manifest?.symbol}>
 			<Suspense fallback={<p>Loading Widget...</p>}>
 				<AutoLoader />
 			</Suspense>
@@ -62,8 +63,7 @@ export default function WidgetProvider(): JSX.Element {
 						data-grid={{
 							...widget,
 							resizeHandles: ['se'],
-						}}
-					>
+						}}>
 						<WidgetLoader instanceId={widget.i} guid={widget.guid} />
 					</div>
 				);
