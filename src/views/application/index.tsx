@@ -7,20 +7,21 @@ import {
 	WidgetInstance,
 	WidgetInstanceId,
 	getWidgetManifest,
-	instanciateWidget,
+	initializeWidget,
 } from 'pkg/widget';
-import WidgetProvider from 'pkg/widget/provider';
 
 import MaterialSymbol, { MaterialSymbolProps } from 'atoms/material-symbol';
+import { SuspensePortalEntry } from 'atoms/suspense-portal';
+import WidgetProvider from 'atoms/widget/provider';
 
 import Header from 'views/application/header';
-import About from 'views/application/settings/about';
-import DisplayModeSettings from 'views/application/settings/display-mode';
 import {
 	useApplicationColorScheme,
 	useApplicationState,
 } from 'views/application/state';
-import Widgets from 'views/application/widgets';
+import About from 'views/settings/about';
+import DisplayModeSettings from 'views/settings/display-mode';
+import Widgets from 'views/widgets';
 
 import css from './styles.module.css';
 
@@ -32,7 +33,7 @@ type ActionSetApplicationColorScheme = (
 	colorScheme: ApplicationColorScheme
 ) => void;
 
-type ActionInstanciateWidget = (guid: WidgetIdentifier) => void;
+type ActioninitializeWidget = (guid: WidgetIdentifier) => void;
 
 type ActionRemoveWidge = (instanceId: WidgetInstanceId) => void;
 
@@ -47,7 +48,7 @@ export interface ApplicationState {
 	setColorScheme: ActionSetApplicationColorScheme;
 
 	widgets: WidgetInstance[];
-	addWidget: ActionInstanciateWidget;
+	addWidget: ActioninitializeWidget;
 	removeWidget: ActionRemoveWidge;
 	updateWidgets: ActionUpdateWidgets;
 	activeWidget: Nullable<string>;
@@ -87,8 +88,6 @@ export function ApplicationStateProvider({
 	initialState,
 	children,
 }: ApplicationProviderProps): JSX.Element {
-	//const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
-
 	const [state, setState] = useMixedState<ApplicationState>({
 		...DefaultApplicationState,
 		...initialState,
@@ -102,7 +101,7 @@ export function ApplicationStateProvider({
 
 		if (manifest) {
 			setState({
-				widgets: state.widgets.concat(instanciateWidget(manifest)),
+				widgets: state.widgets.concat(initializeWidget(manifest)),
 			});
 		}
 	};
@@ -262,7 +261,7 @@ export function Application(): JSX.Element {
 						variant="page_info"
 						weight={300}
 						fill={false}>
-						<div id="widget-settings-portal" />
+						<SuspensePortalEntry portalId="widget-settings" />
 					</Drawer>
 				)}
 			</AnimatePresence>

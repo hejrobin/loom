@@ -6,6 +6,8 @@ Loom is a tiny but versitile dashboard framework that provides the fundamentals 
 
 Loom will not solve all your problems, but will handle (most) of the visual aspects of creating widgets and managing layout states among other things. Data sources and individial settings is entirely up to the widgets themselves.
 
+> Loom ships with [PouchDB](https://pouchdb.com/) pre-installed and is used internally for persistent browser settings via [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), and also [Framer Motion](https://www.framer.com/motion/) for UI animations.
+
 ---
 
 ## Getting Started

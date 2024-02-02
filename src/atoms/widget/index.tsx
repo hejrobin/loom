@@ -3,7 +3,7 @@ import { Fragment, ReactNode, Suspense, lazy, useMemo } from 'react';
 import { classNames } from 'pkg/utils';
 
 import MaterialSymbol, { MaterialSymbolProps } from 'atoms/material-symbol';
-import Portal from 'atoms/portal';
+import { SuspensePortal } from 'atoms/suspense-portal';
 
 import { useApplicationState } from 'views/application/state';
 
@@ -66,10 +66,7 @@ export default function Widget({
 				<main className={css.main}>{children}</main>
 			</article>
 
-			<Portal
-				portalKey={id}
-				selector="#widget-settings-portal"
-				condition={showingWidgetSettings}>
+			<SuspensePortal id="widget-settings">
 				{showingWidgetSettings && (
 					<section className={css.widgetSettings}>
 						<Suspense fallback={<p>Loading Widget Settings...</p>}>
@@ -77,7 +74,7 @@ export default function Widget({
 						</Suspense>
 					</section>
 				)}
-			</Portal>
+			</SuspensePortal>
 		</Fragment>
 	);
 }

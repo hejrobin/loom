@@ -7,7 +7,7 @@ import css from './styles.module.css';
 interface ButtonProps {
 	selected?: boolean;
 	direction?: 'horizontal' | 'vertical';
-	variant?: 'transparent' | 'primary';
+	variant?: 'primary' | 'secondary' | 'outlined';
 	children: ReactNode | ReactNode[];
 	onClick?: (event: PointerEvent<HTMLButtonElement>) => void;
 }
@@ -18,7 +18,7 @@ export function Button({
 
 	direction,
 	selected,
-	variant,
+	variant = 'primary',
 
 	...rest
 }: ButtonProps): JSX.Element {

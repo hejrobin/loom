@@ -81,12 +81,3 @@
 		font-size: 1.6rem;
 	}
 }
-
-.disclaimer {
-	color: hsl(var(--card-fg-alt));
-
-	& strong {
-		font-weight: 600;
-		color: hsl(var(--card-fg));
-	}
-}

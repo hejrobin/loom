@@ -66,7 +66,7 @@ export function registerWidget(manifest: WidgetManifest): void {
 	}
 }
 
-export function instanciateWidget(manifest: WidgetManifest): WidgetInstance {
+export function initializeWidget(manifest: WidgetManifest): WidgetInstance {
 	return {
 		guid: manifest.guid,
 		i: `${manifest.guid}:${Date.now()}`,

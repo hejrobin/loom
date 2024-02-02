@@ -1,9 +1,8 @@
 .button {
 	padding: 1.2rem 1rem;
-	background: hsl(var(--button-bg));
-	color: hsl(var(--button-fg));
+	background: hsl(var(--btn-bg));
+	color: hsl(var(--btn-fg));
 	font-size: 1.2rem;
-	text-transform: uppercase;
 	font-weight: 700;
 	text-align: center;
 	border-radius: 0.6rem;
@@ -13,33 +12,30 @@
 	place-content: center;
 	place-items: center;
 	gap: 0.5rem;
+	box-shadow: var(--shadow-elevation-1);
 
 	&[data-direction='vertical'] {
 		grid-auto-flow: row;
 		gap: 1rem;
 	}
 
-	&[data-variant='primary'] {
-		background: hsl(var(--button-bg-alt));
-		color: hsl(var(--button-fg-alt));
+	&[data-variant='secondary'] {
+		background: hsl(var(--btn-alt-bg));
+		color: hsl(var(--btn-alt-fg));
 	}
 
-	&[data-variant='transparent'] {
+	&[data-variant='outlined'] {
 		background: none;
-		color: hsl(var(--button-bg));
-		box-shadow:
-			0 0 0 0.1rem hsl(var(--button-bg)),
-			inset 0 0 0 0.1rem hsl(var(--button-bg));
+		color: hsl(var(--btn-alt-fg));
+		box-shadow: var(--shadow-elevation-1), inset hsla(var(--btn-alt-fg) / 0.37) 0 0 0 0.1rem;
 	}
 
-	&[data-variant='transparent'][data-selected='true'] {
-		box-shadow:
-			0 0 0 0.1rem hsl(var(--button-bg-alt)),
-			inset 0 0 0 0.1rem hsl(var(--button-bg-alt)),
-			0 0 0.5rem 0.2rem hsla(var(--button-bg-alt) / 0.5);
-		color: hsl(var(--card-fg));
+	&[data-variant='outlined'][data-selected='true'] {
+		box-shadow: var(--shadow-elevation-1), inset hsl(var(--btn-alt-fg)) 0 0 0 0.1rem;
 	}
 }
+
+
 
 .buttonGroup {
 	margin-top: 2rem;

@@ -1,6 +1,6 @@
 import { pkg } from 'config';
 
-import css from '../styles.module.css';
+import css from './styles.module.css';
 
 export default function About(): JSX.Element {
 	return (

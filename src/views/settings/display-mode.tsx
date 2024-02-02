@@ -27,7 +27,7 @@ export default function DisplayModeSettings(): JSX.Element {
 					data-color-scheme="system"
 					selected={isSystemMode}
 					direction="vertical"
-					variant="transparent"
+					variant="outlined"
 					onClick={handleChangeColorScheme}>
 					<MaterialSymbol
 						size={3}
@@ -43,7 +43,7 @@ export default function DisplayModeSettings(): JSX.Element {
 					data-color-scheme="light"
 					selected={isLightMode}
 					direction="vertical"
-					variant="transparent"
+					variant="outlined"
 					onClick={handleChangeColorScheme}>
 					<MaterialSymbol
 						size={3}
@@ -57,7 +57,7 @@ export default function DisplayModeSettings(): JSX.Element {
 					data-color-scheme="dark"
 					selected={isDarkMode}
 					direction="vertical"
-					variant="transparent"
+					variant="outlined"
 					onClick={handleChangeColorScheme}>
 					<MaterialSymbol
 						size={3}

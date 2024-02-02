@@ -104,7 +104,17 @@ body {
 	user-select: none;
 }
 
-/* Color Scheme, defaults to dark mode */
+/* Color Scheme */
+
+@define-mixin color-scheme $scheme {
+	html[data-color-scheme=$(scheme)] {
+		@mixin-content;
+	}
+
+	@media (prefers-color-scheme: $(scheme)) {
+		@mixin-content;
+	}
+}
 
 :root {
 	--hue: 265;
@@ -193,55 +203,20 @@ body {
 				0.22
 			);
 
-	--bg: var(--hue) 10% 21%;
-	--fg: var(--hue) 10% 95%;
+	--bg: var(--hue) 5% 16%;
+	--fg: var(--hue) 5% 95%;
 
 	--card-bg: var(--hue) 10% 8%;
 	--card-bg-alt: var(--hue) 10% 21%;
 	--card-fg: var(--hue) 0% 90%;
 	--card-fg-alt: var(--hue) 10% 56%;
 
-	--button-bg: var(--hue) 15% 60%;
-	--button-fg: var(--hue) 0% 100%;
-
-	--button-bg-alt: var(--hue) 67% 57%;
-	--button-fg-alt: var(--hue) 67% 95%;
-}
-
-html[data-color-scheme='dark'] {
-	--bg: var(--hue) 10% 21%;
-	--fg: var(--hue) 10% 95%;
-
-	--card-bg: var(--hue) 10% 8%;
-	--card-bg-alt: var(--hue) 10% 21%;
-	--card-fg: var(--hue) 0% 90%;
-	--card-fg-alt: var(--hue) 10% 56%;
-}
-
-html[data-color-scheme='light'] {
-	--shadow-lightness: 40%;
-
-	--bg: var(--hue) 1% 79%;
-	--fg: var(--hue) 1% 5%;
-
-	--card-bg: var(--hue) 0% 100%;
-	--card-bg-alt: var(--hue) 1% 89%;
-	--card-fg: var(--hue) 0% 10%;
-	--card-fg-alt: var(--hue) 10% 50%;
-}
-
-@media (prefers-color-scheme: light) {
-	:root {
-		--shadow-lightness: 40%;
-
-		--bg: var(--hue) 1% 79%;
-		--fg: var(--hue) 1% 5%;
-
-		--card-bg: var(--hue) 0% 100%;
-		--card-bg-alt: var(--hue) 1% 89%;
-		--card-fg: var(--hue) 0% 10%;
-		--card-fg-alt: var(--hue) 10% 50%;
-	}
+	--btn-bg: var(--hue) 67% 93%;
+	--btn-fg: var(--hue) 67% 5%;
+	--btn-alt-bg: var(--hue) 7% 33%;
+	--btn-alt-fg: var(--hue) 67% 97%;
+	--btn-ol-bg: var(--hue) 7% 33%;
+	--btn-ol-fg: var(--hue) 67% 97%;
 }
 
 body {
