@@ -22,7 +22,7 @@ export default function DisplayModeSettings(): JSX.Element {
 	return (
 		<section>
 			<h2>Display Mode</h2>
-			<ButtonGroup>
+			<ButtonGroup contentAware={false}>
 				<Button
 					data-color-scheme="system"
 					selected={isSystemMode}

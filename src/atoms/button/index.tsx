@@ -41,9 +41,17 @@ export function Button({
 }
 
 interface ButtonGroupProps {
+	contentAware?: boolean;
 	children?: ReactNode | ReactNode[];
 }
 
-export function ButtonGroup({ children }: ButtonGroupProps): JSX.Element {
-	return <article className={css.buttonGroup}>{children}</article>;
+export function ButtonGroup({
+	contentAware = true,
+	children,
+}: ButtonGroupProps): JSX.Element {
+	return (
+		<div data-content-aware={contentAware} className={css.buttonGroupWrapper}>
+			<article className={css.buttonGroup}>{children}</article>
+		</div>
+	);
 }

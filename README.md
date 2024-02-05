@@ -23,7 +23,7 @@ Loom will not solve all your problems, but will handle (most) of the visual aspe
 2. `cd` to your forked project and run `bun install`
 3. `bun start` to start development server.
 
-> If you intend to run loom as a stand-alone project, fork it to a new folder. After that you can run `bun loom:init {{project_id}}`, this will create a `project.json` in your project root with some project config variables.
+> If you intend to run loom as a stand-alone project, fork it to a new folder.
 
 ### Contributing
 

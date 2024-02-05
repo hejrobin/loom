@@ -59,9 +59,7 @@ export async function loadWidgetManifest(
 	});
 }
 export function registerWidget(manifest: WidgetManifest): void {
-	if (__repository.has(manifest.guid)) {
-		throw new Error('Widget already registered.');
-	} else {
+	if (!__repository.has(manifest.guid)) {
 		__repository.set(manifest.guid, manifest);
 	}
 }

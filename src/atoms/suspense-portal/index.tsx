@@ -52,8 +52,6 @@ export function SuspensePortal({
 		});
 
 		setTargetNodeIfExists();
-
-		return () => observer.disconnect();
 	}, [observer, observeNode, setTargetNodeIfExists]);
 
 	if (!targetNode) {

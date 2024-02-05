@@ -5,7 +5,7 @@ import css from './styles.module.css';
 export default function Header(): JSX.Element {
 	return (
 		<header className={css.header}>
-			<MaterialSymbol variant="raven" />
+			<MaterialSymbol variant="dashboard" />
 			<h1>Loom</h1>
 		</header>
 	);

@@ -1,6 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Fragment, PointerEvent, ReactNode, createContext } from 'react';
+import { loadWidgets } from 'widgets';
 
+import { useComponentDidMount } from 'pkg/component-lifecycle';
+import * as json from 'pkg/json';
 import useMixedState from 'pkg/mixed-state';
 import {
 	WidgetIdentifier,
@@ -75,6 +78,8 @@ const DefaultApplicationState: ApplicationState = {
 	setSidebar: NoOpFn,
 };
 
+const ApplicationStateStorageKey: string = '__loom:userLayout';
+
 export const ApplicationContext = createContext<ApplicationState>(
 	DefaultApplicationState
 );
@@ -91,6 +96,19 @@ export function ApplicationStateProvider({
 	const [state, setState] = useMixedState<ApplicationState>({
 		...DefaultApplicationState,
 		...initialState,
+	});
+
+	useComponentDidMount(async () => {
+		await loadWidgets();
+
+		const fromStorage = localStorage.getItem(ApplicationStateStorageKey) ?? '';
+
+		if (fromStorage.length > 0) {
+			const widgets: WidgetInstance[] =
+				json.parse<WidgetInstance[]>(fromStorage) ?? [];
+
+			setState({ widgets });
+		}
 	});
 
 	const setColorScheme = (colorScheme: ApplicationColorScheme) =>
@@ -124,6 +142,11 @@ export function ApplicationStateProvider({
 
 			return item;
 		});
+
+		localStorage.setItem(
+			ApplicationStateStorageKey,
+			json.stringify(nextWidgets)
+		);
 
 		setState({ widgets: nextWidgets });
 	};

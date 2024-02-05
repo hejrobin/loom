@@ -13,6 +13,7 @@
 	place-items: center;
 	gap: 0.5rem;
 	box-shadow: var(--shadow-elevation-1);
+	transition: opacity 150ms ease-in-out, scale 150ms ease-in-out;
 
 	&[data-direction='vertical'] {
 		grid-auto-flow: row;
@@ -26,22 +27,38 @@
 
 	&[data-variant='outlined'] {
 		background: none;
-		color: hsl(var(--btn-alt-fg));
-		box-shadow: var(--shadow-elevation-1), inset hsla(var(--btn-alt-fg) / 0.37) 0 0 0 0.1rem;
+		color: hsl(var(--btn-ol-fg));
+		box-shadow: inset hsla(var(--btn-ol-fg) / 0.37) 0 0 0 0.1rem;
 	}
 
 	&[data-variant='outlined'][data-selected='true'] {
-		box-shadow: var(--shadow-elevation-1), inset hsl(var(--btn-alt-fg)) 0 0 0 0.1rem;
+		box-shadow: var(--shadow-elevation-2), inset hsl(var(--btn-ol-fg)) 0 0 0 0.1rem;
+	}
+
+	&:hover {
+		opacity: 0.8;
+	}
+
+	&:active {
+		scale: 0.95;
 	}
 }
 
-
+.buttonGroupWrapper[data-content-aware="true"] {
+	container: atomButtonGroup / inline-size;
+}
 
 .buttonGroup {
 	margin-top: 2rem;
 	width: 100%;
 	display: grid;
-	grid-auto-flow: column;
 	grid-auto-columns: 1fr;
+	grid-auto-flow: column;
 	gap: 2rem;
+}
+
+@container atomButtonGroup (inline-size < 40rem) {
+	.buttonGroup {
+		grid-auto-flow: row;
+	}
 }
